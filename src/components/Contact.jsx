@@ -1,11 +1,7 @@
 import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
-
 import { styles } from "../styles";
 import { EarthCanvas } from "./canvas";
 import { SectionWrapper } from "../hoc";
-import { slideIn } from "../utils/motion";
 
 const Contact = () => {
   const formRef = useRef();
@@ -43,7 +39,7 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -52,46 +48,37 @@ const Contact = () => {
 
     setLoading(true);
 
-    emailjs
-      .send(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          to_name: "Mayank Agarwal",
-          from_email: form.email,
-          to_email: "mayankag658@gmail.com",
-          message: form.message,
-        },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert("Thank you. I will get back to you as soon as possible.");
+    // Replace with your Formspree endpoint
+    const formspreeEndpoint = "https://formspree.io/f/mpwzevnp";
 
-          setForm({
-            name: "",
-            email: "",
-            message: "",
-          });
+    try {
+      const response = await fetch(formspreeEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        (error) => {
-          setLoading(false);
-          console.error(error);
-          alert("Ahh, something went wrong. Please try again.");
-        }
-      );
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        alert("Thank you. I will get back to you as soon as possible.");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div
       className={`xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden`}
     >
-      <motion.div
-        variants={slideIn("left", "tween", 0.2, 1)}
-        className="flex-[0.75] bg-black-100 p-8 rounded-2xl"
-      >
+      <div className="flex-[0.75] bg-black-100 p-8 rounded-2xl">
         <p className={styles.sectionSubText}>Get in touch</p>
         <h3 className={styles.sectionHeadText}>Contact.</h3>
 
@@ -152,32 +139,28 @@ const Contact = () => {
           </label>
 
           <div className="flex flex-col md:flex-row items-center gap-4 mt-4">
-  <button
-    type="submit"
-    className={`bg-tertiary py-3 px-6 md:px-8 rounded-lg md:rounded-xl outline-none text-white font-bold shadow-md shadow-primary transition-all duration-300 hover:bg-secondary hover:scale-105 w-full md:w-auto`}
-    disabled={loading}
-  >
-    {loading ? "Sending..." : "Send"}
-  </button>
+            <button
+              type="submit"
+              className={`bg-tertiary py-3 px-6 md:px-8 rounded-lg md:rounded-xl outline-none text-white font-bold shadow-md shadow-primary transition-all duration-300 hover:bg-secondary hover:scale-105 w-full md:w-auto`}
+              disabled={loading}
+            >
+              {loading ? "Sending..." : "Send"}
+            </button>
 
-  <a
-    href="/resume_mayank_agarwal_latest.pdf" // Replace with the actual path to your resume file
-    download="Mayank_Agarwal_Resume.pdf"
-    className="bg-tertiary py-3 px-6 md:px-8 rounded-lg md:rounded-xl outline-none text-white font-bold shadow-md shadow-primary transition-all duration-300 hover:bg-secondary hover:scale-105 w-full md:w-auto text-center"
-  >
-    Resume
-  </a>
-</div>
-
+            <a
+              href="/resume_mayank_agarwal_latest.pdf" // Replace with the actual path to your resume file
+              download="Mayank_Agarwal_Resume.pdf"
+              className="bg-tertiary py-3 px-6 md:px-8 rounded-lg md:rounded-xl outline-none text-white font-bold shadow-md shadow-primary transition-all duration-300 hover:bg-secondary hover:scale-105 w-full md:w-auto text-center"
+            >
+              Resume
+            </a>
+          </div>
         </form>
-      </motion.div>
+      </div>
 
-      <motion.div
-        variants={slideIn("right", "tween", 0.2, 1)}
-        className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]"
-      >
+      <div className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px]">
         <EarthCanvas />
-      </motion.div>
+      </div>
     </div>
   );
 };
