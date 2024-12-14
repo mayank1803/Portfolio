@@ -19,8 +19,8 @@ const ProjectCard = ({
   const isMobile = window.innerWidth <= 768; // Detect mobile device
 
   return (
-    <motion.div
-      variants={fadeIn("up", "spring", index * 0.5, isMobile ? 0.3 : 0.75)}
+    <div
+      
       className="w-full sm:w-[calc(50%-16px)] lg:w-[360px] flex flex-col"
     >
       <ReactParallaxTilt
@@ -72,7 +72,7 @@ const ProjectCard = ({
           ))}
         </div>
       </ReactParallaxTilt>
-    </motion.div>
+    </div>
   );
 };
 
