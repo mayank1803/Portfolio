@@ -93,14 +93,14 @@ const technologies = [
     name: "React JS",
     icon: reactjs,
   },
-  {
-    name: "Redux Toolkit",
-    icon: redux,
-  },
-  {
-    name: "Tailwind CSS",
-    icon: tailwind,
-  },
+  // {
+  //   name: "Redux Toolkit",
+  //   icon: redux,
+  // },
+  // {
+  //   name: "Tailwind CSS",
+  //   icon: tailwind,
+  // },
   {
     name: "Node JS",
     icon: nodejs,
@@ -109,14 +109,14 @@ const technologies = [
     name: "MongoDB",
     icon: mongodb,
   },
-  {
-    name: "Dsa",
-    icon: dsa,
-  },
-  {
-    name: "git",
-    icon: git,
-  },
+  // {
+  //   name: "Dsa",
+  //   icon: dsa,
+  // },
+  // {
+  //   name: "git",
+  //   icon: git,
+  // },
 
 ];
 

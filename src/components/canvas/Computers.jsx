@@ -6,6 +6,30 @@ import CanvasLoader from "../Loader";
 const Computers = ({ isMobile }) => {
   const computer = useMemo(() => useGLTF("./desktop_pc/scene.gltf"), []);
 
+  if (isMobile) {
+    // Render a simpler or different model for mobile
+    return (
+      <mesh>
+        <hemisphereLight intensity={0.15} groundColor="black" />
+        <spotLight
+          position={[-20, 50, 10]}
+          angle={0.12}
+          penumbra={1}
+          intensity={1}
+          castShadow
+          shadow-mapSize={1024}
+        />
+        <pointLight intensity={1} />
+        <primitive
+          object={computer.scene}
+          scale={0.6}
+          position={[0, -2.5, -2.2]}
+          rotation={[-0.01, -0.2, -0.1]}
+        />
+      </mesh>
+    );
+  }
+
   return (
     <mesh>
       <hemisphereLight intensity={0.15} groundColor="black" />
@@ -20,8 +44,8 @@ const Computers = ({ isMobile }) => {
       <pointLight intensity={1} />
       <primitive
         object={computer.scene}
-        scale={isMobile ? 0.6 : 0.75}
-        position={isMobile ? [0, -2.5, -2.2] : [0, -3.25, -1.5]}
+        scale={0.75}
+        position={[0, -3.25, -1.5]}
         rotation={[-0.01, -0.2, -0.1]}
       />
     </mesh>
