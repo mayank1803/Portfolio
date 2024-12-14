@@ -16,33 +16,28 @@ const ProjectCard = ({
   image,
   source_code_link,
 }) => {
-  // Detect mobile device
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 768; // Detect mobile device
 
   return (
     <motion.div
-      variants={fadeIn("up", "spring", index * 0.5, isMobile ? 0.5 : 0.75)}
+      variants={fadeIn("up", "spring", index * 0.5, isMobile ? 0.3 : 0.75)}
+      className="w-full sm:w-[calc(50%-16px)] lg:w-[360px] flex flex-col"
     >
       <ReactParallaxTilt
         options={
-          !isMobile
-            ? {
-                max: 45,
-                scale: 1,
-                speed: 450,
-              }
-            : {}
+          isMobile
+            ? { max: 10, scale: 1.02, speed: 250 } // Simplified options for mobile
+            : { max: 35, scale: 1.05, speed: 400 }
         }
-        className="bg-tertiary p-5 rounded-2xl w-full sm:w-[360px]"
+        className="bg-tertiary p-5 rounded-2xl h-full"
       >
-        <div className="relative w-full h-[230px]">
+        <div className="relative w-full h-[200px] sm:h-[230px]">
           <img
             src={image}
             alt="project_image"
             className="w-full h-full object-cover rounded-2xl"
             loading="lazy"
           />
-
           <div className="absolute inset-0 flex justify-end m-3 card-img_hover">
             <div
               onClick={() => window.open(source_code_link, "_blank")}
@@ -58,10 +53,10 @@ const ProjectCard = ({
         </div>
 
         <div className="mt-5">
-          <h3 className="text-white font-bold text-[20px] md:text-[24px]">
+          <h3 className="text-white font-bold text-[18px] sm:text-[20px] lg:text-[24px]">
             {name}
           </h3>
-          <p className="mt-2 text-secondary text-[12px] md:text-[14px]">
+          <p className="mt-2 text-secondary text-[12px] sm:text-[14px]">
             {description}
           </p>
         </div>
@@ -70,7 +65,7 @@ const ProjectCard = ({
           {tags.map((tag) => (
             <p
               key={`${name}-${tag.name}`}
-              className={`text-[12px] md:text-[14px] ${tag.color}`}
+              className={`text-[10px] sm:text-[12px] lg:text-[14px] ${tag.color}`}
             >
               #{tag.name}
             </p>
@@ -93,31 +88,14 @@ const Works = () => {
         </h2>
       </motion.div>
 
-      <div className="w-full flex justify-center sm:justify-start">
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className="mt-3 text-secondary text-[15px] sm:text-[17px] max-w-3xl leading-[28px] sm:leading-[30px]"
-        >
-          The following projects demonstrate my technical expertise and
-          real-world application of skills. Each project includes links to code
-          repositories and live demos, showcasing my ability to solve complex
-          problems, work with various technologies, and manage projects
-          effectively.
-        </motion.p>
-      </div>
+      <motion.p
+        variants={fadeIn("", "", 0.1, 1)}
+        className="mt-3 text-secondary text-[14px] sm:text-[16px] max-w-3xl leading-[24px] sm:leading-[30px] mx-auto sm:mx-0 text-center sm:text-left"
+      >
+        The following projects showcase my technical expertise and problem-solving skills. Each project includes links to code repositories and live demos.
+      </motion.p>
 
-      <div className="w-full flex justify-center sm:justify-start">
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className="mt-3 text-secondary text-[15px] sm:text-[17px] max-w-3xl leading-[28px] sm:leading-[30px]"
-        >
-          These projects span web development, full-stack development, and
-          AI-driven solutions, highlighting my proficiency with technologies
-          such as React, Next.js, Node.js, and MongoDB.
-        </motion.p>
-      </div>
-
-      <div className="mt-10 sm:mt-20 flex flex-wrap gap-4 sm:gap-7 justify-center sm:justify-start">
+      <div className="mt-10 sm:mt-20 flex flex-wrap gap-6 justify-center">
         {projects.map((project, index) => (
           <ProjectCard key={`project-${index}`} index={index} {...project} />
         ))}
